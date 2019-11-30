@@ -4,7 +4,7 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 var Table = require("cli-table");
 
-// Connecting CLI to SQL Database
+// Connecting to SQL Database
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -21,9 +21,9 @@ connection.connect(function(err) {
   showItems();
 });
 
-function showItems() {
-  // console.log('___ENTER displayInventory___');
+// Show product table when app is started
 
+function showItems() {
   // Construct the db query string
   var query = "SELECT * FROM products";
 
@@ -34,6 +34,7 @@ function showItems() {
     console.log("Welcome to Bamazon");
     console.log("_____________________________\n");
 
+    // Using cli-table npm package to make table cleaner
     var showTable = new Table({
       head: ["ID", "Product", "Deparment", "Price"],
       colWidths: [10, 15, 15, 10]
@@ -49,12 +50,13 @@ function showItems() {
     }
     console.log(showTable.toString());
     console.log("");
-    //Prompt the user for item/quantity they would like to purchase
+    // Function to start ordering process
     start();
   });
 }
 
 function start() {
+  // Prompt the customer for item they would like to purchase
   inquirer
     .prompt({
       name: "itemID",
@@ -69,12 +71,15 @@ function start() {
         res
       ) {
         if (err) throw err;
+
+        // If customer enters ID that does not exist show product table and ask customer to select again.
         if (res.length === 0) {
           console.log(
             "That product does not exist, please enter an ID from the table above"
           );
           start();
         } else {
+          // Prompt the customer for quantity they would like to purchase
           inquirer
             .prompt({
               name: "quantity",
@@ -84,6 +89,7 @@ function start() {
             })
             .then(function(ansTwo) {
               var quantity = ansTwo.quantity;
+              // If customer selects a quantity that is more than stock quantity, show the message below and ask customer to select again
               if (quantity > res[0].stock_quantity) {
                 console.log(
                   "We only have " +
@@ -93,6 +99,7 @@ function start() {
                 console.log("");
                 start();
               } else {
+                //  If customer order is successful, show item purchased, quantity purchased and total price
                 console.log("");
                 console.log(res[0].product_name + " purchased");
                 console.log(quantity + " qty @ $" + res[0].price + " each");
@@ -101,7 +108,7 @@ function start() {
                 var total = totalQuant.toFixed(2);
 
                 console.log("Your total is: " + "$" + total);
-
+                // Update stock quantity in database
                 var newQuantity = res[0].stock_quantity - quantity;
                 connection.query(
                   "UPDATE products SET stock_quantity = " +
