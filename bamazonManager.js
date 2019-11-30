@@ -48,10 +48,34 @@ var managerView = function() {
       }
     });
 };
-var viewProducts = function() {
-  console.log("This lets you see all products");
-};
 
+var viewProducts = function() {
+  var query = "SELECT * FROM products";
+  connection.query(query, function(err, res) {
+    if (err) throw err;
+    console.log("");
+    console.log("Welcome to your Dashboard");
+    console.log("_____________________________\n");
+
+    var showTable = new Table({
+      head: ["ID", "Product", "Department", "Price", "Stock Quantity"],
+      colWidths: [10, 15, 15, 10, 10]
+    });
+
+    for (var i = 0; i < res.length; i++) {
+      showTable.push([
+        res[i].id,
+        res[i].product_name,
+        res[i].department_name,
+        "$" + res[i].price,
+        res[i].stock_quantity
+      ]);
+    }
+    console.log(showTable.toString());
+    console.log("");
+    managerView();
+  });
+};
 var lowInventory = function() {
   console.log("This lets you see products that are low");
 };
