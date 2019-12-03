@@ -27,10 +27,6 @@ This app is a command line based Amazon-like store front. It will will take in o
    - Update your SQL database to reflect the remaining quantity.
    - Once the update goes through, show the customer the total cost of their purchase.
 
-### Manager View
-
-TBD
-
 ## Built With
 
 - Javascript
