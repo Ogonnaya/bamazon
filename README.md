@@ -8,7 +8,7 @@ This app is a command line based Amazon-like store front. It will will take in o
 
 #### Demo
 
-[Bamazon Demo](https://drive.google.com/file/d/1mOTz7dgAlD8tFQI2oEPRs3LLUV6fgyts/view?usp=sharing)
+[Bamazon Customer Demo](https://drive.google.com/file/d/1mOTz7dgAlD8tFQI2oEPRs3LLUV6fgyts/view?usp=sharing)
 
 ### Customer View
 
